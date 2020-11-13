@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import axios from 'axios';
-import '../../stylesheets/insertques.css'
 
 class insertques extends Component {
 
@@ -11,7 +10,6 @@ class insertques extends Component {
         //the fields for question that is to be entered
         quiz_id: 0,
         questionString: '',
-        quizName: this.props.location.state,
         option1: '',
         option2: '',
         option3: '',
@@ -30,10 +28,9 @@ class insertques extends Component {
     // setting quiz id to the state
     componentDidMount() {
         const QuizID = this.props.match.params.quiz_id
-        const QuizName = this.props.location.state
         this.setState({
-            quiz_id: QuizID,
-            quizName: QuizName
+            quiz_id: QuizID
+
         })
     }
 
@@ -76,6 +73,7 @@ class insertques extends Component {
     handleChange = (e) => {
 
         // getting the value based on the input 
+        const flag = e.target.value ? true : false
 
         //we have set the  id  input field with the same name as its corresponding state field name
         //the id of the button on which the event has taken place this is same name by which we have stored in state
@@ -86,6 +84,7 @@ class insertques extends Component {
             // the  entered value of the input field 
 
             // setting that corresponding flag value
+            [e.target.id + "flag"]: flag
 
 
 
@@ -130,10 +129,10 @@ class insertques extends Component {
 
     // after the submit button is pressed
 
-    handleClick = () => {
+    handleClick = (e) => {
         // get the values from state and store in a variable  
         // so that it can be passed to the backend server to be stored in the database
-        const quizName = this.state.quizName
+
         const question = {
             quiz_id: this.state.quiz_id,
             questionString: this.state.questionString,
@@ -145,39 +144,37 @@ class insertques extends Component {
 
         }
         //making request to backend server
-        axios.post('http://192.168.43.91:80/submitques/', { quizName, question }).then(
+        axios.post('http://192.168.0.104:80/submitques/', question)
 
-            window.location.reload()
-        )
+
+        //redirect to the same page after saving question
+        this.props.history.push('/insertques/' + this.state.quiz_id)
     }
 
+
     render() {
-
-        // if (this.state.redirect) {
-        //     return 
-        // }
         return (
-            <div className="insertques">
+            <div >
+                <div >
 
-                <div className="insertform">
-                    <h1>Enter Questions</h1>
                     <form id="form">
 
                         {/* Basic input fields of the form */}
-                        <div className="quesfield"><input type="text" placeholder="QuizName" value={this.state.quizName} readOnly /></div>
-                        <div className="quesfield"><input type="text" id="questionString" placeholder="question" onChange={this.handleChange} autoComplete="off" /></div>
-                        <div className="quesfield"><input type="text" id="option1" placeholder="option1" onChange={this.handleChange} autoComplete="off" /></div>
-                        <div className="quesfield"><input type="text" id="option2" placeholder="option2" onChange={this.handleChange} autoComplete="off" /></div>
-                        <div className="quesfield"><input type="text" id="option3" placeholder="option3" onChange={this.handleChange} autoComplete="off" /></div>
-                        <div className="quesfield"><input type="text" id="option4" placeholder="option4" onChange={this.handleChange} autoComplete="off" /></div>
-                        <div className="quesfield">
+                        <div className="quesfield"><input type="number" placeholder="QuizID" value={this.state.quiz_id} readOnly /></div>
+                        <div className="quesfield"><input type="text" id="questionString" placeholder="question" onChange={this.handleChange} /></div>
+                        <div className="quesfield"><input type="text" id="option1" placeholder="option1" onChange={this.handleChange} /></div>
+                        <div className="quesfield"><input type="text" id="option2" placeholder="option2" onChange={this.handleChange} /></div>
+                        <div className="quesfield"><input type="text" id="option3" placeholder="option3" onChange={this.handleChange} /></div>
+                        <div className="quesfield"><input type="text" id="option4" placeholder="option4" onChange={this.handleChange} /></div>
+                        <br /><br />
+                        <div >
 
                             {/* The correct value dropdown */}
                             {/* disabled will be set to opposite value of correctflag */}
                             <select name="correct" id="correct" disabled={!this.state.correctflag} value={this.state.correct} onChange={this.setCorrect}>
 
                                 {/* The default value that is to be shown but not to be selected  */}
-                                <option value="none" hidden>Choose a correct option</option>
+                                <option value="none" hidden>correct</option>
 
                                 {/* The options  that are nothing but the entered values */}
                                 <option value={this.state.option1}>{this.state.option1}</option>
@@ -190,10 +187,9 @@ class insertques extends Component {
                         </div>
 
                         {/* The submit buttton that is enabled if both the correctflag and the all flag are true */}
-
+                        <button disabled={!(this.state.allflag && this.state.correctflag)} className="submit btn" onClick={this.handleClick}>Submit</button>
 
                     </form>
-                    <button disabled={!(this.state.allflag && this.state.correctflag)} className="submitbtn" onClick={this.handleClick}>Submit</button>
                 </div>
             </div>
         )

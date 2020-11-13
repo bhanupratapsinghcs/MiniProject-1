@@ -64,11 +64,6 @@ const QuizSchema = new schema({
         type: Number,
         required: true
     },
-    quizName :{
-        type:String,
-        required : true
-        
-    },
     questions: [onlyquestions]
 });
 module.exports={
