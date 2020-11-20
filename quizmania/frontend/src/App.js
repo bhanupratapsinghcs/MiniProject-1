@@ -23,7 +23,8 @@ import cookie from 'js-cookie';
 import hostquiz from './Components/JoinQuizComp/hostquiz';
 import HostquizPage from './Components/hostQuizComponent/HostquizPage';
 import QuizStats from './Components/JoinQuizComp/QuizStats';
-import login from './Components/logincomponent/login'
+import ProtectedRoute from './ProtectedRoutes/ProtectedRoutes';
+// import login from './Components/logincomponent/login'
 
 
 
@@ -35,32 +36,32 @@ function App() {
   })
   const checkLoggedIn = async () => {
 
-    const token = cookie.get("auth-token");
+    let token = cookie.get("auth-token");
 
     if (token === null) {
       cookie.set("auth-token", "");
       token = "";
     }
     const tokenRes = await Axios.post(
-      'http://192.168.43.91:80/tokenIsValid',
+      'http://192.168.0.100:80/tokenIsValid',
       null,
       { headers: { "x-auth-token": token } }
     );
 
     if (tokenRes.data) {
 
-      const userRes = await Axios.get("http://192.168.43.91:80/auth", {
+      const userRes = await Axios.get("http://192.168.0.100:80/auth", {
 
         headers: { "x-auth-token": token },
       });
-
+      // console.log(userRes, token);
       setUserData({
         token,
         user: userRes.data,
       });
-      // console.log(userData);
 
     }
+    // console.log(userData)
   };
   useEffect(() => {
 
@@ -81,7 +82,6 @@ function App() {
               (<Route exact path='/' component={LoginDashBoard} />) :
               //else this
               (<Route exact path='/' component={Home} />)
-
             }
             <Route path='/createquiz' component={createQuiz} />
             <Route path='/getQuiz/:quiz_id' component={getQuiz} />
