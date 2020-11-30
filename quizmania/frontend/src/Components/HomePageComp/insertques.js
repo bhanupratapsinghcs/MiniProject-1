@@ -148,7 +148,7 @@ class insertques extends Component {
         }
         //making request to backend server
 
-        axios.post('http://192.168.0.100:80/submitques/', { quizName, question }).then(
+        axios.post('http://192.168.0.104:80/submitques/', { quizName, question }).then(
 
             window.location.reload()
         )

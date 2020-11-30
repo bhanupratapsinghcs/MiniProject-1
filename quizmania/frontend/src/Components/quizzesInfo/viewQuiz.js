@@ -104,7 +104,7 @@ const ViewQuiz = (props) => {
 
 
 const deletequiz = (quiz_id) => {
-    axios.post('http://192.168.0.100:80/deletequiz', { quiz_id }).then(window.location.reload())
+    axios.post('http://192.168.0.104:80/deletequiz', { quiz_id }).then(window.location.reload())
 
 }
 

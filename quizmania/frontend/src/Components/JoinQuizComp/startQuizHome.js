@@ -5,7 +5,7 @@ import Direct from '../errComponents/DirectAccess'
 import io from 'socket.io-client'
 import QuizOngoing from './quizOngoing'
 
-const ENDPOINT = "192.168.0.100:80"
+const ENDPOINT = "192.168.0.104:80"
 
 
 
