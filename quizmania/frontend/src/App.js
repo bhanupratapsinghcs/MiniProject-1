@@ -10,7 +10,6 @@ import getQuiz from './Components/quizzesInfo/getQuiz';
 import startQuiz from './Components/JoinQuizComp/startQuizHome'
 import Userinfo from './Components/JoinQuizComp/userinfo';
 import Editques from './Components/quizzesInfo/Editques';
-import JoinQuiz from './Components/partials/JoinQuizdash'
 import Navbar from './Components/Navbar/Navbar';
 import GlobalStyles from '../src/globalStyles'
 import createQuiz from './Components/HomePageComp/createQuiz'
@@ -23,8 +22,7 @@ import cookie from 'js-cookie';
 import hostquiz from './Components/JoinQuizComp/hostquiz';
 import HostquizPage from './Components/hostQuizComponent/HostquizPage';
 import QuizStats from './Components/JoinQuizComp/QuizStats';
-import login from './Components/logincomponent/login'
-import JoinQuizComp from './Components/partials/JoinQuizComp';
+import JoinQuizComp from './Components/partials/JoinQuizComp'
 
 
 
@@ -36,7 +34,7 @@ function App() {
   })
   const checkLoggedIn = async () => {
 
-    let token = cookie.get("auth-token");
+    var token = cookie.get("auth-token");
 
     if (token === null) {
       cookie.set("auth-token", "");

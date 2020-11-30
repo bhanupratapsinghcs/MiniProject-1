@@ -16,7 +16,8 @@ const HostquizPage = (props) => {
         (users.map(user => {
             return (
                 <div className="userlist" key={user.user_id}>
-                    <h1>{user.username}</h1>
+
+                    <h4>{user.username}</h4>
                     <span>{user.score ? "finished the quiz final score is " + user.score : ""} </span>
                 </div>
             )
